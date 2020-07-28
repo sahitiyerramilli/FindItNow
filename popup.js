@@ -6,7 +6,7 @@
 
 window.onload = function ()
 {
-    var mb = document.getElementById("plang");
+    var mb = document.querySelector(".plang");
     mb.addEventListener("onchange", SetLang);
 }
 
