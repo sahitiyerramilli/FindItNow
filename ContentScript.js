@@ -6,12 +6,10 @@ document.addEventListener('mouseup', function (event) {
 })
 
 chrome.storage.onChanged.addListener(function (changes, namespace) {
-    var result;
-    console.log("onchanged");
-    chrome.storage.sync.get(['response'], function (result) {
-        console.log("hi " + result.key);
-        /*var popup = document.getElementById("myPopup");
-        popup.innerHTML = "hello";
-        popup.classList.toggle("show");*/
-    });
-})
+    for (var key in changes) {
+        if ("response" == key) {
+            var storageChange = changes[key];
+            console.log('Transaltion is - "%s".', storageChange.newValue);
+        }
+    }
+});
