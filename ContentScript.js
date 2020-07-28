@@ -35,5 +35,8 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
             $("#tooltip").show();
             console.log('Transaltion is - "%s".', storageChange.newValue);
         }
+        if ("language" == key) {
+            console.log("Language changed");
+        }
     }
 })
