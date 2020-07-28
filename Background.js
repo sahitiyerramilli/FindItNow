@@ -1,11 +1,11 @@
 var seltext = null;
-    
+var languageCode = 'hi';    
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
 {
     seltext = request.greeting;
     console.log("background");
- 
-    fetch('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=es', {
+
+    fetch('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=' + languageCode, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,9 +17,18 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
         ])
     }).then(res => {
         return res.json()
-    }).then(data => chrome.storage.sync.set({ response: data[0].translations[0].text }, function () { })/*console.log(data)*/);
-    //chrome.storage.sync.set({ response: data }, function () { });
+    }).then(data => chrome.storage.sync.set({ response: data[0].translations[0].text }, function () { }));
     console.log("storage set");
     return true;
 }
 );
+
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    for (var key in changes) {
+        if ("language" == key) {
+            var storageChange = changes[key];
+            console.log("Language changed to %s", storageChange.newValue);
+            languageCode = storageChange.newValue;
+        }
+    }
+})

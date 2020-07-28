@@ -22,7 +22,7 @@ document.addEventListener('mouseup', function (event) {
     $('#tooltip').css('border-radius', '2px');
     $('#tooltip').css('display', 'none'); 
     console.log(sel)
-    if (sel.length)
+    if (sel.length && sel.split(' ').length<50)
         chrome.runtime.sendMessage({ greeting : sel }, function (response) { })
 })
 
@@ -31,12 +31,9 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
         if ("response" == key) {
             var storageChange = changes[key];
             var sel = window.getSelection().toString();
-            $("#tooltip").text(sel + "\nTranslation :" + storageChange.newValue);
+            $("#tooltip").text(storageChange.newValue);
             $("#tooltip").show();
             console.log('Transaltion is - "%s".', storageChange.newValue);
-        }
-        if ("language" == key) {
-            console.log("Language changed");
         }
     }
 })
