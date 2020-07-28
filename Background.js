@@ -3,7 +3,8 @@ var seltext = null;
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
 {
     seltext = request.greeting;
-
+    console.log("background");
+ 
     fetch('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=es', {
         method: 'POST',
         headers: {
@@ -12,10 +13,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
             'Ocp-Apim-Subscription-Region': 'centralindia'
         },
         body: JSON.stringify([
-            { 'Text': 'Hey, this is awesome' }
+            { 'Text': seltext }
         ])
     }).then(res => {
         return res.json()
-    }).then(data => console.log(data))
+    }).then(data => console.log(data));
+    chrome.storage.sync.set({ response: seltext }, function () { });
+    console.log("storage set");
+    return true;
 }
 );
