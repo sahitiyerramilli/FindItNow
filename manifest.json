@@ -9,7 +9,8 @@
   "content_scripts": [
     {
       "matches": [ "<all_urls>" ],
-      "js": [ "ContentScript.js" ]
+      "js": [ "ContentScript.js" ],
+      "html": [ "ContentScript.html" ]
     }
   ],
   "background": {
@@ -17,6 +18,7 @@
     "persistent": false
   },
   "permissions": [
+    "storage",
     "http://*/*",
     "https://*/*",
     "contextMenus",
