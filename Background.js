@@ -17,8 +17,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
         ])
     }).then(res => {
         return res.json()
-    }).then(data => console.log(data));
-    chrome.storage.sync.set({ response: seltext }, function () { });
+    }).then(data => chrome.storage.sync.set({ response: data[0].translations[0].text }, function () { })/*console.log(data)*/);
+    //chrome.storage.sync.set({ response: data }, function () { });
     console.log("storage set");
     return true;
 }

@@ -1,5 +1,6 @@
 document.addEventListener('mouseup', function (event) {
     var sel = window.getSelection().toString();
+
     console.log("hello" + sel);
     var popup = document.createElement("DIV");
     popup.text = "selected";
@@ -20,17 +21,19 @@ document.addEventListener('mouseup', function (event) {
     $('#tooltip').css('border-color', '#3333FF');
     $('#tooltip').css('border-radius', '2px');
     $('#tooltip').css('display', 'none'); 
+    console.log(sel)
     if (sel.length)
         chrome.runtime.sendMessage({ greeting : sel }, function (response) { })
 })
 
 chrome.storage.onChanged.addListener(function (changes, namespace) {
-    var result;
-    console.log("onchanged");
-    chrome.storage.sync.get(['response'], function (result) {
-        console.log("hi " + result.key);
-        console.log("Tootltip " + $("#tooltip"));
-        $("#tooltip").text("this is a para");
-        $("#tooltip").show();
-    });
+    for (var key in changes) {
+        if ("response" == key) {
+            var storageChange = changes[key];
+            var sel = window.getSelection().toString();
+            $("#tooltip").text(sel + "\nTranslation :" + storageChange.newValue);
+            $("#tooltip").show();
+            console.log('Transaltion is - "%s".', storageChange.newValue);
+        }
+    }
 })
