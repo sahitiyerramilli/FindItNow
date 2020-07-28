@@ -9,12 +9,12 @@
   "content_scripts": [
     {
       "matches": [ "<all_urls>" ],
-      "js": [ "ContentScript.js" ],
-      "html": [ "ContentScript.html" ]
+      "js": [ "ContentScript.js", "jquery-3.1.0.min.js" ],
+      "css": [ "content.css"]
     }
   ],
   "background": {
-    "scripts": [ "Background.js" , "popup.js" ],
+    "scripts": [ "Background.js" ],
     "persistent": false
   },
   "permissions": [
