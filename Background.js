@@ -1,20 +1,22 @@
 var seltext = null;
 
-function getData() {
-    getMeaning();
-    getTranslation();
-}
+var languageCode = 'hi';    
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
+{
+    seltext = request.greeting;
+    console.log("background");
+    if (seltext.split(' ').length < 2) {
+        fetch('https://api.dictionaryapi.dev/api/v1/entries/en/' + seltext).then(res => {
+            return res.json()
+        }).then(data =>
+            //console.log("Object" + (data[0].meaning
+            chrome.storage.sync.set({ meaning: (data[0].meaning[Object.keys(data[0].meaning)[0]])[0].definition }, function () { }));
+    }
+    else {
+        chrome.storage.sync.set({ meaning: "" }, function () { });
+    }
 
-function getMeaning() {
-    return fetch('https://api.dictionaryapi.dev/api/v1/entries/en/' + seltext).then(res => {
-        return res.json()
-    }).then(data =>
-        //console.log("Object" + (data[0].meaning)));
-        chrome.storage.sync.set({ meaning: (data[0].meaning[Object.keys(data[0].meaning)[0]])[0].definition }, function () { }));
-}
-
-function getTranslation() {
-    return fetch('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=es', {
+    fetch('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=' + languageCode, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -27,15 +29,14 @@ function getTranslation() {
     }).then(res => {
         return res.json()
     }).then(data => chrome.storage.sync.set({ response: data[0].translations[0].text }, function () { }));
-}
+})
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
-{
-    seltext = request.greeting;
-    console.log("background");
-    var result = "seltext\n";
-    getData(seltext);//.then(([meaning, translation]) => result.concat("Meaning: " + meaning + "\nTransLation: " + translation));
-    console.log("storage set "+result);
-    return true;
-}
-);
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    for (var key in changes) {
+        if ("language" == key) {
+            var storageChange = changes[key];
+            console.log("Language changed to %s", storageChange.newValue);
+            languageCode = storageChange.newValue;
+        }
+    }
+})

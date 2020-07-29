@@ -26,7 +26,7 @@ document.addEventListener('mouseup', function (event) {
     $('#tooltip').css('border-radius', '2px');
     $('#tooltip').css('display', 'none'); 
     console.log(sel)
-    if (sel.length)
+    if (sel.length && sel.split(' ').length<50)
         chrome.runtime.sendMessage({ greeting : sel }, function (response) { })
 })
 
@@ -57,7 +57,10 @@ function displayData()
 {
     var sel = window.getSelection().toString();
     if (count == 2) {
-        var data = sel + "<br>Meaning: " + meaning + "<br>Translation: " + translation;
+        var data = sel;
+        if (meaning != "")
+            data += "<br>Meaning: " + meaning
+        data += "<br>Translation: " + translation;
         document.getElementById("tooltip").innerHTML = data;
         $("#tooltip").show();
         count = 0;
