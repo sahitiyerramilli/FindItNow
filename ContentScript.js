@@ -1,9 +1,13 @@
+var meaning = null;
+var translation = null;
+var count = 0;
+
 document.addEventListener('mouseup', function (event) {
     var sel = window.getSelection().toString();
 
     console.log("hello" + sel);
     var popup = document.createElement("DIV");
-    popup.text = "selected";
+    popup.textContent = sel;
     popup.id = "tooltip";
     document.body.appendChild(popup);
     $("#tooltip").css({
@@ -30,10 +34,35 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     for (var key in changes) {
         if ("response" == key) {
             var storageChange = changes[key];
-            var sel = window.getSelection().toString();
-            $("#tooltip").text(storageChange.newValue);
-            $("#tooltip").show();
-            console.log('Transaltion is - "%s".', storageChange.newValue);
+            translation = storageChange.newValue;
+            count = count + 1;
+            displayData();
+            /*document.getElementById("tooltip").textContent += "\nTranslation: " + storageChange.newValue;
+            $("#tooltip").show();*/
+            console.log('Transaltion is - "%s".', storageChange.newValue, count);
+        }
+        if ("meaning" == key) {
+            var storageChange = changes[key];
+            meaning = storageChange.newValue;
+            count = count + 1;
+            displayData();
+            //document.getElementById("tooltip").textContent += "\nMeaning: " + storageChange.newValue;
+            //$("#tooltip").show();
+            console.log('\nMeaning is - "%s".', storageChange.newValue);
         }
     }
 })
+
+function displayData()
+{
+    var sel = window.getSelection().toString();
+    if (count == 2) {
+        var data = sel;
+        if (meaning != "")
+            data += "<br>Meaning: " + meaning
+        data += "<br>Translation: " + translation;
+        document.getElementById("tooltip").innerHTML = data;
+        $("#tooltip").show();
+        count = 0;
+    }
+}
