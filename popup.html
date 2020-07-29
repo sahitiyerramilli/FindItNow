@@ -7,8 +7,12 @@
 </head>
 <body>
         <h1>FindItNow</h1>
-        <label for="preferredlanguage">Preferred Language:</label>
+        <p>Your Current Language of Preference: <b id="Language">Hindi</b></p>
+        <label for="preferredlanguage">Change Preferred Language:</label>
         <select class="dropdown" name="planguage" id="plang">
+            <option value="none" selected disabled hidden>
+                Select an Option
+            </option>
             <option value="hi">Hindi</option>
             <option value="te">Telugu</option>
             <option value="ta">Tamil</option>
