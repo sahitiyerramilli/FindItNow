@@ -4,7 +4,7 @@ var count = 0;
 
 document.addEventListener('mouseup', function (event) {
     var sel = window.getSelection().toString();
-
+    sel = sel.trim();
     console.log("hello" + sel);
     var popup = document.createElement("DIV");
     popup.textContent = sel;
