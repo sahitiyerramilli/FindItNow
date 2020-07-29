@@ -4,12 +4,19 @@
     <title>FindItNow</title>
     <!--<script src="jquery-3.1.0.min.js"></script>-->
     <script src="popup.js"></script>
+    <!--<style>
+        div
+        {
+            padding: 50px;
+        }
+    </style>-->
 </head>
 <body>
-        <h1>FindItNow</h1>
-        <p>Your Current Language of Preference: <b id="Language">Hindi</b></p>
-        <label for="preferredlanguage">Change Preferred Language:</label>
-        <select class="dropdown" name="planguage" id="plang">
+    <div>
+        <h1 >FindItNow</h1>
+        <p style="font-family:Microsoft GothicNeo; font-size:17px">Current Language Preference: <b id="Language">Hindi</b></p>
+        <label style="font-family:Microsoft GothicNeo; font-size:17px" for="preferredlanguage">Change Preferred Language:</label>
+        <select style="font-family:Microsoft GothicNeo; font-size:17px" class="dropdown" name="planguage" id="plang">
             <option value="none" selected disabled hidden>
                 Select an Option
             </option>
@@ -20,5 +27,6 @@
             <option value="kn">Kannada</option>
             <option value="mr">Marathi</option>
         </select>
+    </div>
 </body>
 </html>
