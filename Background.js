@@ -1,11 +1,20 @@
 var seltext = null;
-    
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
-{
-    seltext = request.greeting;
-    console.log("background");
- 
-    fetch('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=es', {
+
+function getData() {
+    getMeaning();
+    getTranslation();
+}
+
+function getMeaning() {
+    return fetch('https://api.dictionaryapi.dev/api/v1/entries/en/' + seltext).then(res => {
+        return res.json()
+    }).then(data =>
+        //console.log("Object" + (data[0].meaning)));
+        chrome.storage.sync.set({ meaning: (data[0].meaning[Object.keys(data[0].meaning)[0]])[0].definition }, function () { }));
+}
+
+function getTranslation() {
+    return fetch('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=es', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,9 +26,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
         ])
     }).then(res => {
         return res.json()
-    }).then(data => chrome.storage.sync.set({ response: data[0].translations[0].text }, function () { })/*console.log(data)*/);
-    //chrome.storage.sync.set({ response: data }, function () { });
-    console.log("storage set");
+    }).then(data => chrome.storage.sync.set({ response: data[0].translations[0].text }, function () { }));
+}
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
+{
+    seltext = request.greeting;
+    console.log("background");
+    var result = "seltext\n";
+    getData(seltext);//.then(([meaning, translation]) => result.concat("Meaning: " + meaning + "\nTransLation: " + translation));
+    console.log("storage set "+result);
     return true;
 }
 );
