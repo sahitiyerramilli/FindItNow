@@ -58,9 +58,9 @@ function displayData()
     var sel = window.getSelection().toString();
     if (count == 2) {
         var data = sel;
-        if (meaning != "")
-            data += "<br>Meaning: " + meaning
-        data += "<br>Translation: " + translation;
+        if (meaning != "" && meaning != null)
+            data += "<br><br><b>Meaning:</b> " + meaning
+        data += "<br><b>Translation:</b> " + translation;
         document.getElementById("tooltip").innerHTML = data;
         $("#tooltip").show();
         count = 0;
