@@ -11,7 +11,7 @@ window.onload = function ()
         
     //});
 
-    result = getLocalStorageValue("language").then(result => ChangePreferredLanguageDisplay(result.key));
+    result = getLocalStorageValue("language").then(result => ChangePreferredLanguageDisplay(result.language));
     //ChangePreferredLanguageDisplay(result)
 
     var mb = document.getElementById("plang");
