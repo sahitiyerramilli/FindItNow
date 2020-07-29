@@ -60,6 +60,8 @@ function displayData()
         var data = sel;
         if (meaning != "" && meaning != null)
             data += "<br><br><b>Meaning:</b> " + meaning
+        else
+            data += "<br>";
         data += "<br><b>Translation:</b> " + translation;
         document.getElementById("tooltip").innerHTML = data;
         $("#tooltip").show();
