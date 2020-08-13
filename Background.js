@@ -11,7 +11,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
         'SSDB': 'Search Setting DB (SPO/ GL)',
         'SSMS': 'Substrate Search management Service (SPO/ GL)',
         'SOA': 'Service Oriented Architecture',
-        'SIGS': 'Substrate Signal Service'
+        'SIGS': 'Substrate Signal Service',
+        'TDS': 'Topology Deployment System',
+        'TDF': 'Test Dogfood'
     }
     console.log("background " + seltext.split(' ') + " " + seltext.split(' ').length);
     if (seltext in localDictionary) {

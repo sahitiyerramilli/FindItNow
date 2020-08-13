@@ -10,6 +10,10 @@ document.addEventListener('mouseup', function (event) {
     popup.textContent = sel;
     popup.id = "tooltip";
     document.body.appendChild(popup);
+    var ir = document.createElement("script");
+    ir.setAttribute('src', 'https://kit.fontawesome.com/c4ee536911.js');
+    ir.setAttribute('crossorigin', 'anonymous');
+    document.head.appendChild(ir);
     $("#tooltip").css({
         top: event.pageY + 'px',
         left: event.pageX + 'px',
@@ -58,15 +62,16 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 function displayData() {
     var sel = window.getSelection().toString();
     if (count == 2) {
-        var data = sel;
+        var data = sel+"&nbsp";
+        data += "<span style=\"font-size: 25px; color: BLACK;\"><i class=\"fas fa-volume-up\"></i></span><span id= \"spanning\" style=\"font-size: 25px; color: TOMATO;\"> <i class=\"fas fa-bookmark\" title = \"Edit\"></i></span>";
         if (meaning != "" && meaning != null)
             data += "<br><br><b>Meaning:</b> " + meaning
         else
             data += "<br>";
-        if (translation != "")
+        if (translation != "" && translation != null)
             data += "<br><b>Translation:</b> " + translation;
         document.getElementById("tooltip").innerHTML = data;
-        $("#tooltip").fadeTo("fast",0.85);
+        $("#tooltip").fadeTo("fast",1);
         $("#tooltip").show();
         count = 0;
     }
